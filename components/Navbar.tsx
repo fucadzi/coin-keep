@@ -11,7 +11,7 @@ import { Link } from '@heroui/link';
 import NextLink from 'next/link';
 
 import { siteConfig } from '@/config/site';
-import { ThemeSwitch } from '@/components/theme-switch';
+import { ThemeSwitch } from '@/components/ThemeSwitch';
 import { Logo } from '@/components/icons';
 
 export const Navbar = () => {
