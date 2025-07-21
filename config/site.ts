@@ -4,19 +4,15 @@ export const siteConfig = {
     name: 'CoinKeep',
     description: 'View available funds.',
     navItems: [
-        // {
-        //     label: 'Home',
-        //     href: '/',
-        // },
-        // {
-        //     label: 'Docs',
-        //     href: '/docs',
-        // },
+        {
+            label: 'About',
+            href: '/about',
+        },
     ],
     navMenuItems: [
         {
-            label: 'Profile',
-            href: '/profile',
+            label: 'About',
+            href: '/about',
         },
     ],
 };
