@@ -7,6 +7,19 @@ import nextPlugin from '@next/eslint-plugin-next';
 
 export default [
     {
+        ignores: [
+            '.next/**',
+            'node_modules/**',
+            'public/**',
+            'dist/**',
+            'build/**',
+            'coverage/**',
+            '**/*.config.js',
+            '**/*.config.mjs',
+            '.eslintrc.js',
+            'postcss.config.js',
+            'tailwind.config.js',
+        ],
         files: ['**/*.{js,jsx,ts,tsx}'],
         plugins: {
             '@typescript-eslint': typescriptPlugin,

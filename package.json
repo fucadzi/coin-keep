@@ -6,7 +6,7 @@
         "dev": "next dev --turbopack",
         "build": "next build",
         "start": "next start",
-        "lint": "eslint --fix --ext .js,.jsx,.ts,.tsx",
+        "lint": "eslint --fix --ext .js,.jsx,.ts,.tsx app/ components/ lib/ config/ --ignore-pattern '.next/' --ignore-pattern 'node_modules/' --ignore-pattern 'dist/' --ignore-pattern 'build/'",
         "format": "prettier --write",
         "format:all": "npm run format .",
         "format:check": "prettier --check .",
