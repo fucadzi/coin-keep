@@ -101,10 +101,10 @@ export function BalanceTable() {
         onLoadMore: list.loadMore,
     });
 
-    // Reload list when search query changes
+    // Reload list when data changes
     useEffect(() => {
         list.reload();
-    }, [searchQuery]);
+    }, [searchQuery, balances, currencies]);
 
     if (!balances.length || !currencies.length) {
         return (
