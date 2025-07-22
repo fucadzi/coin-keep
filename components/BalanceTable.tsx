@@ -7,10 +7,12 @@ import { useInfiniteScroll } from '@heroui/use-infinite-scroll';
 import { useAsyncList } from '@react-stately/data';
 import { useBalanceStore } from '@/lib/store/useBalanceStore';
 import { useCurrencyStore } from '@/lib/store/useCurrencyStore';
+import Link from 'next/link';
 
 interface BalanceTableItem {
     id: string;
     amount: number;
+    currencyId: string;
     currencyCode: string;
     currencySymbol: string;
     [key: string]: string | number;
@@ -47,6 +49,7 @@ export function BalanceTable() {
                 return {
                     id: balance.id,
                     amount: balance.amount,
+                    currencyId: balance.currency_id,
                     currencyCode: currency?.code || 'Unknown',
                     currencySymbol: currency?.symbol || '',
                 };
@@ -159,7 +162,14 @@ export function BalanceTable() {
                 <TableBody items={list.items} loadingContent={<Spinner />}>
                     {(item) => (
                         <TableRow key={item.id}>
-                            <TableCell>{item.currencyCode}</TableCell>
+                            <TableCell>
+                                <Link
+                                    href={`/currency/${item.currencyId}`}
+                                    className="text-primary hover:underline"
+                                >
+                                    {item.currencyCode}
+                                </Link>
+                            </TableCell>
                             <TableCell>{`${item.currencySymbol} ${item.amount}`}</TableCell>
                         </TableRow>
                     )}
