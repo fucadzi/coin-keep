@@ -1,3 +1,5 @@
+import { LoginCredentials, OTPVerification, LoginResponse, User } from '@/types/authentification';
+
 // Mock data
 const MOCK_USERS = [
     {
@@ -17,28 +19,6 @@ const MOCK_USERS = [
 ];
 
 const MOCK_DELAY = 500; // 0.5 second delay to simulate API call
-
-export interface LoginCredentials {
-    email: string;
-    password: string;
-}
-
-export interface OTPVerification {
-    email: string;
-    otp: string;
-}
-
-export interface User {
-    id: string;
-    email: string;
-    type: string;
-}
-
-export interface LoginResponse {
-    requiresOTP: boolean;
-    user?: User;
-    token?: string;
-}
 
 // Helper to simulate API delay
 const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));

@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 import { authService } from '@/lib/api/services/auth';
-import type { User, LoginResponse } from '@/lib/api/services/auth';
+import type { User, LoginResponse } from '@/types/authentification';
 
 interface AuthState {
     isAuthenticated: boolean | undefined;
