@@ -3,32 +3,24 @@
 import { useState } from 'react';
 import { Input } from '@heroui/input';
 import { Button } from '@heroui/button';
-import { useAuthStore } from '@/lib/store/useAuthStore';
 
 interface LoginFormProps {
-    onOTPRequired: (email: string) => void;
-    onError: (error: string) => void;
+    onSubmit: (email: string, password: string) => Promise<void>;
 }
 
-export function LoginForm({ onOTPRequired, onError }: LoginFormProps) {
+export function LoginForm({ onSubmit }: LoginFormProps) {
     const [isLoading, setIsLoading] = useState(false);
     const [formData, setFormData] = useState({
         email: '',
         password: '',
     });
-    const login = useAuthStore((state) => state.login);
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         setIsLoading(true);
 
         try {
-            const response = await login(formData.email, formData.password);
-            if (response.requiresOTP) {
-                onOTPRequired(formData.email);
-            }
-        } catch (error) {
-            onError(error instanceof Error ? error.message : 'Failed to login');
+            await onSubmit(formData.email, formData.password);
         } finally {
             setIsLoading(false);
         }

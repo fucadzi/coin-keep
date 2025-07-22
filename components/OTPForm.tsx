@@ -3,29 +3,23 @@
 import { useState } from 'react';
 import { Input } from '@heroui/input';
 import { Button } from '@heroui/button';
-import { useAuthStore } from '@/lib/store/useAuthStore';
 
 interface OTPFormProps {
     email: string;
-    onSuccess: () => void;
-    onError: (error: string) => void;
+    onSubmit: (otp: string) => Promise<void>;
     onBack: () => void;
 }
 
-export function OTPForm({ email, onSuccess, onError, onBack }: OTPFormProps) {
+export function OTPForm({ email, onSubmit, onBack }: OTPFormProps) {
     const [isLoading, setIsLoading] = useState(false);
     const [otp, setOtp] = useState('');
-    const verifyOTP = useAuthStore((state) => state.verifyOTP);
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         setIsLoading(true);
 
         try {
-            await verifyOTP(email, otp);
-            onSuccess();
-        } catch (error) {
-            onError(error instanceof Error ? error.message : 'Failed to verify OTP');
+            await onSubmit(otp);
         } finally {
             setIsLoading(false);
         }
