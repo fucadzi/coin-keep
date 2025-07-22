@@ -6,28 +6,13 @@ import { useCurrencyStore } from '@/lib/store/useCurrencyStore';
 import { useBalanceStore } from '@/lib/store/useBalanceStore';
 
 export default function Home() {
-    const {
-        loading: currenciesLoading,
-        error: currenciesError,
-        fetchCurrencies,
-    } = useCurrencyStore();
-    const { loading: balancesLoading, error: balancesError, fetchBalances } = useBalanceStore();
+    const { error: currenciesError, fetchCurrencies } = useCurrencyStore();
+    const { error: balancesError, fetchBalances } = useBalanceStore();
 
     useEffect(() => {
         fetchCurrencies();
         fetchBalances();
     }, [fetchCurrencies, fetchBalances]);
-
-    if (currenciesLoading || balancesLoading) {
-        return (
-            <div className="flex items-center justify-center min-h-screen">
-                <div className="text-center">
-                    <h2 className="text-xl font-semibold mb-2">Loading...</h2>
-                    <p className="text-gray-500">Fetching your financial data</p>
-                </div>
-            </div>
-        );
-    }
 
     if (currenciesError || balancesError) {
         return (

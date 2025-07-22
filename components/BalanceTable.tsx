@@ -106,6 +106,17 @@ export function BalanceTable() {
         list.reload();
     }, [searchQuery]);
 
+    if (!balances.length || !currencies.length) {
+        return (
+            <div className="w-full max-w-4xl space-y-4">
+                <div className="h-[52px] bg-gray-200 dark:bg-gray-800 rounded-lg animate-pulse" />{' '}
+                {/* Search input skeleton */}
+                <div className="h-[520px] bg-gray-200 dark:bg-gray-800 rounded-lg animate-pulse" />{' '}
+                {/* Table skeleton */}
+            </div>
+        );
+    }
+
     return (
         <div className="space-y-4">
             <div className="flex justify-between items-center">
