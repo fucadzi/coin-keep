@@ -2,7 +2,10 @@
 
 import { useBalanceStore } from '@/lib/store/useBalanceStore';
 import { useCurrencyStore } from '@/lib/store/useCurrencyStore';
-import { use } from 'react';
+import { use, useEffect } from 'react';
+import { Button } from '@heroui/button';
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 
 interface CurrencyPageProps {
     params: Promise<{
@@ -14,6 +17,18 @@ export default function CurrencyPage({ params }: CurrencyPageProps) {
     const { id } = use(params);
     const { balances } = useBalanceStore();
     const { currencies } = useCurrencyStore();
+    const router = useRouter();
+
+    useEffect(() => {
+        if (!currencies.length || !balances.length) {
+            router.push('/');
+        }
+    }, [currencies.length, balances.length, router]);
+
+    // If no data, show nothing while redirecting
+    if (!currencies.length || !balances.length) {
+        return null;
+    }
 
     const currency = currencies.find((c) => c.id === id);
     const currencyBalances = balances.filter((b) => b.currency_id.toString() === id);
@@ -32,6 +47,14 @@ export default function CurrencyPage({ params }: CurrencyPageProps) {
 
     return (
         <div className="space-y-8">
+            <div className="flex items-center gap-4">
+                <Link href="/">
+                    <Button variant="light" className="gap-2">
+                        ← Back to Balances
+                    </Button>
+                </Link>
+            </div>
+
             <div className="flex items-center justify-between">
                 <div>
                     <h1 className="text-4xl font-bold">{currency.code}</h1>
