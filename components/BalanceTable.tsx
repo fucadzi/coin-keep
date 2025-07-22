@@ -13,7 +13,13 @@ interface BalanceTableItem {
     amount: number;
     currencyCode: string;
     currencySymbol: string;
+    [key: string]: string | number;
 }
+
+type SortDescriptor = {
+    column: keyof BalanceTableItem;
+    direction: 'ascending' | 'descending';
+};
 
 export function BalanceTable() {
     const [hasMore, setHasMore] = useState(false);
@@ -63,6 +69,31 @@ export function BalanceTable() {
                 cursor: nextCursor,
             };
         },
+        async sort({
+            items,
+            sortDescriptor,
+        }: {
+            items: BalanceTableItem[];
+            sortDescriptor: SortDescriptor;
+        }) {
+            return {
+                items: items.sort((a, b) => {
+                    let first = a[sortDescriptor.column];
+                    let second = b[sortDescriptor.column];
+                    let cmp =
+                        (parseInt(first.toString()) || first) <
+                        (parseInt(second.toString()) || second)
+                            ? -1
+                            : 1;
+
+                    if (sortDescriptor.direction === 'descending') {
+                        cmp *= -1;
+                    }
+
+                    return cmp;
+                }),
+            };
+        },
     });
 
     const [loaderRef, scrollerRef] = useInfiniteScroll({
@@ -103,10 +134,16 @@ export function BalanceTable() {
                     base: 'max-h-[520px] overflow-scroll',
                     table: 'min-h-[400px]',
                 }}
+                sortDescriptor={list.sortDescriptor}
+                onSortChange={list.sort}
             >
                 <TableHeader>
-                    <TableColumn>Currency</TableColumn>
-                    <TableColumn>Amount</TableColumn>
+                    <TableColumn key="currencyCode" allowsSorting>
+                        Currency
+                    </TableColumn>
+                    <TableColumn key="amount" allowsSorting>
+                        Amount
+                    </TableColumn>
                 </TableHeader>
                 <TableBody items={list.items} loadingContent={<Spinner />}>
                     {(item) => (
