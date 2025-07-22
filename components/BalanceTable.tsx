@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Table, TableHeader, TableColumn, TableBody, TableRow, TableCell } from '@heroui/table';
 import { Spinner } from '@heroui/spinner';
 import { useInfiniteScroll } from '@heroui/use-infinite-scroll';
@@ -17,6 +17,7 @@ interface BalanceTableItem {
 
 export function BalanceTable() {
     const [hasMore, setHasMore] = useState(false);
+    const [searchQuery, setSearchQuery] = useState('');
     const { balances } = useBalanceStore();
     const { currencies } = useCurrencyStore();
 
@@ -45,6 +46,13 @@ export function BalanceTable() {
                 };
             });
 
+            // Filter items based on search query
+            if (searchQuery) {
+                allItems = allItems.filter((item) =>
+                    item.currencyCode.toLowerCase().includes(searchQuery.toLowerCase())
+                );
+            }
+
             const items = allItems.slice(currentPage * pageSize, (currentPage + 1) * pageSize);
             const nextCursor = items.length === pageSize ? (currentPage + 1).toString() : undefined;
 
@@ -62,35 +70,53 @@ export function BalanceTable() {
         onLoadMore: list.loadMore,
     });
 
+    // Reload list when search query changes
+    useEffect(() => {
+        list.reload();
+    }, [searchQuery]);
+
     return (
-        <Table
-            isHeaderSticky
-            aria-label="Balances table with infinite scroll"
-            baseRef={scrollerRef}
-            bottomContent={
-                hasMore ? (
-                    <div className="flex w-full justify-center">
-                        <Spinner ref={loaderRef} />
-                    </div>
-                ) : null
-            }
-            classNames={{
-                base: 'max-h-[520px] overflow-scroll',
-                table: 'min-h-[400px]',
-            }}
-        >
-            <TableHeader>
-                <TableColumn>Currency</TableColumn>
-                <TableColumn>Amount</TableColumn>
-            </TableHeader>
-            <TableBody items={list.items} loadingContent={<Spinner />}>
-                {(item) => (
-                    <TableRow key={item.id}>
-                        <TableCell>{item.currencyCode}</TableCell>
-                        <TableCell>{`${item.currencySymbol} ${item.amount}`}</TableCell>
-                    </TableRow>
-                )}
-            </TableBody>
-        </Table>
+        <div className="space-y-4">
+            <div className="flex justify-between items-center">
+                <input
+                    type="text"
+                    placeholder="Search by currency..."
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    className="px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary dark:bg-gray-800 dark:border-gray-700"
+                    aria-label="Search currencies"
+                />
+            </div>
+
+            <Table
+                isHeaderSticky
+                aria-label="Balances table with infinite scroll"
+                baseRef={scrollerRef}
+                bottomContent={
+                    hasMore ? (
+                        <div className="flex w-full justify-center">
+                            <Spinner ref={loaderRef} />
+                        </div>
+                    ) : null
+                }
+                classNames={{
+                    base: 'max-h-[520px] overflow-scroll',
+                    table: 'min-h-[400px]',
+                }}
+            >
+                <TableHeader>
+                    <TableColumn>Currency</TableColumn>
+                    <TableColumn>Amount</TableColumn>
+                </TableHeader>
+                <TableBody items={list.items} loadingContent={<Spinner />}>
+                    {(item) => (
+                        <TableRow key={item.id}>
+                            <TableCell>{item.currencyCode}</TableCell>
+                            <TableCell>{`${item.currencySymbol} ${item.amount}`}</TableCell>
+                        </TableRow>
+                    )}
+                </TableBody>
+            </Table>
+        </div>
     );
 }
