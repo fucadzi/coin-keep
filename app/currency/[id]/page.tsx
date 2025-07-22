@@ -4,7 +4,6 @@ import { useBalanceStore } from '@/lib/store/useBalanceStore';
 import { useCurrencyStore } from '@/lib/store/useCurrencyStore';
 import { use, useEffect } from 'react';
 import { Button } from '@heroui/button';
-import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 
 interface CurrencyPageProps {
@@ -48,11 +47,9 @@ export default function CurrencyPage({ params }: CurrencyPageProps) {
     return (
         <div className="space-y-8">
             <div className="flex items-center gap-4">
-                <Link href="/">
-                    <Button variant="light" className="gap-2">
-                        ← Back to Balances
-                    </Button>
-                </Link>
+                <Button variant="light" className="gap-2" onClick={() => router.back()}>
+                    ← Back to Balances
+                </Button>
             </div>
 
             <div className="flex items-center justify-between">
