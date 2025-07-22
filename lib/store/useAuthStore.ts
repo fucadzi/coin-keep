@@ -3,7 +3,7 @@ import { authService } from '@/lib/api/services/auth';
 import type { User, LoginResponse } from '@/lib/api/services/auth';
 
 interface AuthState {
-    isAuthenticated: boolean;
+    isAuthenticated: boolean | undefined;
     user: User | null;
     error: string | null;
     checkAuth: () => void;
@@ -13,7 +13,7 @@ interface AuthState {
 }
 
 export const useAuthStore = create<AuthState>((set, get) => ({
-    isAuthenticated: false,
+    isAuthenticated: undefined,
     user: null,
     error: null,
 
