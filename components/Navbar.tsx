@@ -69,7 +69,12 @@ export const Navbar = () => {
                     )}
                     <ThemeSwitch />
                     {isAuthenticated && (
-                        <Button color="danger" variant="light" onClick={handleLogout}>
+                        <Button
+                            color="danger"
+                            variant="light"
+                            onClick={handleLogout}
+                            className="focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 dark:focus:ring-offset-gray-900"
+                        >
                             Logout
                         </Button>
                     )}
@@ -111,7 +116,7 @@ export const Navbar = () => {
                             <Button
                                 color="danger"
                                 variant="light"
-                                className="w-full"
+                                className="w-full focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 dark:focus:ring-offset-gray-900"
                                 onClick={handleLogout}
                             >
                                 Logout
