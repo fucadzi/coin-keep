@@ -42,9 +42,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                         <main className="container mx-auto max-w-7xl sm:pt-16 px-6 flex-grow">
                             {children}
                         </main>
-                        <footer className="w-full flex items-center justify-center py-3">
-                            <p>Footer</p>
-                        </footer>
                     </div>
                 </Providers>
             </body>
