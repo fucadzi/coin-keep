@@ -59,7 +59,7 @@ export function Auth({ onAuthSuccess }: AuthProps) {
 
     return (
         <div className="w-full max-w-md bg-white dark:bg-gray-800 rounded-xl shadow-lg">
-            <div className="flex flex-col items-center gap-4 pb-8 pt-6 px-6 border-b border-gray-200 dark:border-gray-700">
+            <div className="flex flex-col items-center gap-4 pb-8 pt-6 px-6">
                 <h2 className="text-2xl font-bold">Welcome to CoinKeep</h2>
                 {error && (
                     <div className="w-full p-3 text-sm text-white bg-red-500 rounded-lg">

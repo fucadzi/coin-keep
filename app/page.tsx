@@ -68,7 +68,7 @@ export default function Home() {
         return (
             <div className="flex items-center justify-center p-4">
                 <div className="w-full max-w-md bg-white dark:bg-gray-800 rounded-xl shadow-lg">
-                    <div className="flex flex-col items-center gap-4 pb-8 pt-6 px-6 border-b border-gray-200 dark:border-gray-700">
+                    <div className="flex flex-col items-center gap-4 pb-8 pt-6 px-6">
                         <div className="h-8 w-48 bg-gray-200 dark:bg-gray-700 rounded animate-pulse" />
                     </div>
                     <div className="p-6 space-y-6">

@@ -95,7 +95,7 @@ export function BalanceTable({ data, isLoading }: BalanceTableProps) {
                     placeholder="Search by currency..."
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
-                    className="px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary dark:bg-gray-800 dark:border-gray-700"
+                    className="w-full sm:w-1/3 px-4 py-2 border rounded-lg focus:outline-none focus:ring-1 focus:ring-primary border-gray-300 dark:border-gray-200"
                     aria-label="Search currencies"
                 />
             </div>
@@ -112,7 +112,7 @@ export function BalanceTable({ data, isLoading }: BalanceTableProps) {
                     ) : null
                 }
                 classNames={{
-                    base: 'max-h-[520px] overflow-scroll',
+                    base: 'max-h-[520px] overflow-scroll p-px',
                     table: 'min-h-[400px]',
                 }}
                 sortDescriptor={list.sortDescriptor}
