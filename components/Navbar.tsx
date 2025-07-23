@@ -13,7 +13,7 @@ import { Button } from '@heroui/button';
 import NextLink from 'next/link';
 
 import { ThemeSwitch } from '@/components/ThemeSwitch';
-import { Logo } from '@/components/icons';
+import { Logo } from '@/components/Icons';
 import { useAuthStore } from '@/lib/store/useAuthStore';
 
 const USER_TYPE_COLORS = {

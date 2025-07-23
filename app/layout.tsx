@@ -6,7 +6,7 @@ import { Providers } from './providers';
 
 import { siteConfig } from '@/config/site';
 import { fontSans } from '@/config/fonts';
-import { Navbar } from '@/components/navbar';
+import { Navbar } from '@/components/Navbar';
 
 export const metadata: Metadata = {
     title: {
@@ -32,16 +32,19 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             <head />
             <body
                 className={clsx(
-                    'text-foreground bg-background font-sans antialiased',
+                    'min-h-screen text-foreground bg-background font-sans antialiased',
                     fontSans.variable
                 )}
             >
-                <Providers themeProps={{ attribute: 'class', defaultTheme: 'light' }}>
+                <Providers themeProps={{ attribute: 'class', defaultTheme: 'dark' }}>
                     <div className="relative flex flex-col h-screen">
                         <Navbar />
                         <main className="container mx-auto max-w-7xl sm:pt-16 px-6 flex-grow">
                             {children}
                         </main>
+                        <footer className="w-full flex items-center justify-center py-3">
+                            <p>Footer</p>
+                        </footer>
                     </div>
                 </Providers>
             </body>
