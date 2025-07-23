@@ -51,6 +51,20 @@ NEXT_PUBLIC_API_URL=http://your-base-url
 npm run dev
 ```
 
+## Testing
+
+The project uses Jest and React Testing Library for testing. Tests are located next to their components in `__tests__` directories.
+
+### Running Tests
+
+```bash
+# Run all tests
+npm test
+
+# Run tests in watch mode
+npm run test:watch
+```
+
 ## Code Quality Tools
 
 This project uses several tools to maintain code quality:
