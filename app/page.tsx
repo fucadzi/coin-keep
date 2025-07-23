@@ -6,11 +6,24 @@ import { Auth } from '@/components/Auth';
 import { useCurrencyStore } from '@/lib/store/useCurrencyStore';
 import { useBalanceStore } from '@/lib/store/useBalanceStore';
 import { useAuthStore } from '@/lib/store/useAuthStore';
+import type { Balance } from '@/lib/api/services/balances';
+import type { Currency } from '@/lib/api/services/currencies';
+import type { TransformedBalance } from '@/types/balance';
 
 export default function Home() {
     const { isAuthenticated, checkAuth } = useAuthStore();
-    const { error: currenciesError, fetchCurrencies } = useCurrencyStore();
-    const { error: balancesError, fetchBalances } = useBalanceStore();
+    const {
+        error: currenciesError,
+        currencies,
+        loading: currenciesLoading,
+        fetchCurrencies,
+    } = useCurrencyStore();
+    const {
+        error: balancesError,
+        balances,
+        loading: balancesLoading,
+        fetchBalances,
+    } = useBalanceStore();
 
     // Check authentication status on mount
     useEffect(() => {
@@ -24,6 +37,31 @@ export default function Home() {
             fetchBalances();
         }
     }, [isAuthenticated, fetchCurrencies, fetchBalances]);
+
+    const transformBalances = (
+        balances: Balance[],
+        currencies: Currency[]
+    ): TransformedBalance[] => {
+        // Create currency map for lookups
+        const currencyMap = currencies.reduce(
+            (acc, currency) => {
+                acc[currency.id] = currency;
+                return acc;
+            },
+            {} as Record<string, Currency>
+        );
+
+        return balances.map((balance) => {
+            const currency = currencyMap[balance.currency_id];
+            return {
+                id: balance.id,
+                amount: balance.amount,
+                currencyId: balance.currency_id,
+                currencyCode: currency?.code || 'Unknown',
+                currencySymbol: currency?.symbol || '',
+            };
+        });
+    };
 
     // Show skeleton while checking auth
     if (isAuthenticated === undefined) {
@@ -64,6 +102,8 @@ export default function Home() {
         );
     }
 
+    const transformedBalances = transformBalances(balances, currencies);
+
     return (
         <section className="flex flex-col items-center justify-center gap-8 py-8 md:py-10">
             <div className="inline-block max-w-xl text-center justify-center">
@@ -71,7 +111,10 @@ export default function Home() {
             </div>
 
             <div className="w-full max-w-4xl">
-                <BalanceTable />
+                <BalanceTable
+                    data={transformedBalances}
+                    isLoading={currenciesLoading || balancesLoading}
+                />
             </div>
         </section>
     );

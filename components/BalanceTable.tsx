@@ -5,64 +5,31 @@ import { Table, TableHeader, TableColumn, TableBody, TableRow, TableCell } from 
 import { Spinner } from '@heroui/spinner';
 import { useInfiniteScroll } from '@heroui/use-infinite-scroll';
 import { useAsyncList } from '@react-stately/data';
-import { useBalanceStore } from '@/lib/store/useBalanceStore';
-import { useCurrencyStore } from '@/lib/store/useCurrencyStore';
 import Link from 'next/link';
+import { TransformedBalance, SortDescriptor } from '@/types/balance';
 
-interface BalanceTableItem {
-    id: string;
-    amount: number;
-    currencyId: string;
-    currencyCode: string;
-    currencySymbol: string;
-    [key: string]: string | number;
+interface BalanceTableProps {
+    data: TransformedBalance[];
+    isLoading: boolean;
 }
 
-type SortDescriptor = {
-    column: keyof BalanceTableItem;
-    direction: 'ascending' | 'descending';
-};
-
-export function BalanceTable() {
+export function BalanceTable({ data, isLoading }: BalanceTableProps) {
     const [hasMore, setHasMore] = useState(false);
     const [searchQuery, setSearchQuery] = useState('');
-    const { balances } = useBalanceStore();
-    const { currencies } = useCurrencyStore();
 
-    // Create currency map for lookups
-    const currencyMap = currencies.reduce(
-        (acc, currency) => {
-            acc[currency.id] = currency;
-            return acc;
-        },
-        {} as Record<string, (typeof currencies)[0]>
-    );
-
-    let list = useAsyncList<BalanceTableItem>({
+    let list = useAsyncList<TransformedBalance>({
         async load({ cursor }) {
             const pageSize = 10;
             const currentPage = cursor ? parseInt(cursor) : 0;
 
-            // Transform balances
-            let allItems = balances.map((balance) => {
-                const currency = currencyMap[balance.currency_id];
-                return {
-                    id: balance.id,
-                    amount: balance.amount,
-                    currencyId: balance.currency_id,
-                    currencyCode: currency?.code || 'Unknown',
-                    currencySymbol: currency?.symbol || '',
-                };
-            });
-
             // Filter items based on search query
-            if (searchQuery) {
-                allItems = allItems.filter((item) =>
-                    item.currencyCode.toLowerCase().includes(searchQuery.toLowerCase())
-                );
-            }
+            let filteredItems = searchQuery
+                ? data.filter((item) =>
+                      item.currencyCode.toLowerCase().includes(searchQuery.toLowerCase())
+                  )
+                : data;
 
-            const items = allItems.slice(currentPage * pageSize, (currentPage + 1) * pageSize);
+            const items = filteredItems.slice(currentPage * pageSize, (currentPage + 1) * pageSize);
             const nextCursor = items.length === pageSize ? (currentPage + 1).toString() : undefined;
 
             setHasMore(!!nextCursor);
@@ -76,7 +43,7 @@ export function BalanceTable() {
             items,
             sortDescriptor,
         }: {
-            items: BalanceTableItem[];
+            items: TransformedBalance[];
             sortDescriptor: SortDescriptor;
         }) {
             return {
@@ -107,9 +74,9 @@ export function BalanceTable() {
     // Reload list when data changes
     useEffect(() => {
         list.reload();
-    }, [searchQuery, balances, currencies]);
+    }, [searchQuery, data]);
 
-    if (!balances.length || !currencies.length) {
+    if (isLoading || !data.length) {
         return (
             <div className="w-full max-w-4xl space-y-4">
                 <div className="h-[52px] bg-gray-200 dark:bg-gray-800 rounded-lg animate-pulse" />{' '}
