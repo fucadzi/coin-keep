@@ -49,10 +49,20 @@ export function OTPForm({ email, onSubmit, onBack }: OTPFormProps) {
             </div>
 
             <div className="flex flex-col gap-2">
-                <Button type="submit" color="primary" className="w-full" isLoading={isLoading}>
+                <Button
+                    type="submit"
+                    color="primary"
+                    className="w-full focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-900"
+                    isLoading={isLoading}
+                >
                     Verify
                 </Button>
-                <Button type="button" variant="light" className="w-full" onClick={onBack}>
+                <Button
+                    type="button"
+                    variant="light"
+                    className="w-full focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-900"
+                    onPress={onBack}
+                >
                     Back to Login
                 </Button>
             </div>

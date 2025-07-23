@@ -48,7 +48,12 @@ export function LoginForm({ onSubmit }: LoginFormProps) {
                     required
                 />
             </div>
-            <Button type="submit" color="primary" className="w-full" isLoading={isLoading}>
+            <Button
+                type="submit"
+                color="primary"
+                className="w-full focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-900"
+                isLoading={isLoading}
+            >
                 Login
             </Button>
 
