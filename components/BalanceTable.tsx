@@ -78,7 +78,7 @@ export function BalanceTable({ data, isLoading }: BalanceTableProps) {
 
     if (isLoading || !data.length) {
         return (
-            <div className="w-full max-w-4xl space-y-4">
+            <div data-testid="loading-skeleton" className="w-full max-w-4xl space-y-4">
                 <div className="h-[52px] bg-gray-200 dark:bg-gray-800 rounded-lg animate-pulse" />{' '}
                 {/* Search input skeleton */}
                 <div className="h-[520px] bg-gray-200 dark:bg-gray-800 rounded-lg animate-pulse" />{' '}
@@ -95,7 +95,7 @@ export function BalanceTable({ data, isLoading }: BalanceTableProps) {
                     placeholder="Search by currency..."
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
-                    className="w-full sm:w-1/3 px-4 py-2 border rounded-lg focus:outline-none focus:ring-1 focus:ring-primary border-gray-300 dark:border-gray-200"
+                    className="px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary dark:bg-gray-800 dark:border-gray-700"
                     aria-label="Search currencies"
                 />
             </div>
@@ -112,7 +112,7 @@ export function BalanceTable({ data, isLoading }: BalanceTableProps) {
                     ) : null
                 }
                 classNames={{
-                    base: 'max-h-[520px] overflow-scroll p-px',
+                    base: 'max-h-[520px] overflow-scroll',
                     table: 'min-h-[400px]',
                 }}
                 sortDescriptor={list.sortDescriptor}
@@ -126,7 +126,11 @@ export function BalanceTable({ data, isLoading }: BalanceTableProps) {
                         Amount
                     </TableColumn>
                 </TableHeader>
-                <TableBody items={list.items} loadingContent={<Spinner />}>
+                <TableBody
+                    items={list.items}
+                    loadingContent={<Spinner />}
+                    emptyContent={<div className="text-center py-4">No results found</div>}
+                >
                     {(item) => (
                         <TableRow key={item.id}>
                             <TableCell>
