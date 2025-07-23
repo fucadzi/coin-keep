@@ -10,6 +10,9 @@ const customJestConfig = {
     moduleNameMapper: {
         '^@/(.*)$': '<rootDir>/$1',
     },
+    transform: {
+        '^.+\\.(js|jsx|ts|tsx|mjs)$': ['babel-jest', { presets: ['next/babel'] }],
+    },
 };
 
 module.exports = createJestConfig(customJestConfig);
