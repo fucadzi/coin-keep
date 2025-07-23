@@ -12,7 +12,6 @@ import {
 import { Button } from '@heroui/button';
 import NextLink from 'next/link';
 
-import { siteConfig } from '@/config/site';
 import { ThemeSwitch } from '@/components/ThemeSwitch';
 import { Logo } from '@/components/icons';
 import { useAuthStore } from '@/lib/store/useAuthStore';

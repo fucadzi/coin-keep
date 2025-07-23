@@ -85,7 +85,7 @@ export default function Home() {
 
     if (currenciesError || balancesError) {
         return (
-            <div className="flex items-center justify-center min-h-screen">
+            <div className="flex items-center justify-center">
                 <div className="text-center text-red-500">
                     <h2 className="text-xl font-semibold mb-2">Error</h2>
                     <p>{currenciesError || balancesError}</p>
