@@ -18,7 +18,7 @@ export const useBalanceStore = create<BalanceState>((set, get) => ({
     loading: false,
     paging: {
         page: 1,
-        limit: 10,
+        limit: 100,
         total: 0,
     },
     error: null,
