@@ -7,11 +7,12 @@ export interface Balance {
 }
 
 export const balanceService = {
-    async getBalances(): Promise<Balance[]> {
-        return api.get<Balance[]>('/balances');
-    },
-
-    async getBalance(id: string): Promise<Balance> {
-        return api.get<Balance>(`/balances/${id}`);
+    async getBalances(page: number, limit: number): Promise<Balance[]> {
+        return api.get<Balance[]>('/balances', {
+            params: {
+                page: page.toString(),
+                limit: limit.toString(),
+            },
+        });
     },
 };
